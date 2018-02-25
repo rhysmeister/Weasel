@@ -5,6 +5,7 @@ parser = argparse.ArgumentParser(description='Download your likes, posts and com
 parser.add_argument('-t', '--access_token', type=str, help='Facebook Access Token. Get one from the Graphi API Explorer')
 parser.add_argument('-v', '--version', type=str, default="2.11", help='The version of the Facebook Graph API')
 parser.add_argument('-l', '--limit', type=int, default=4000, help='The number of results to fetch per call to the Graph API')
+parser.add_argument('-u', '--tweeter', type=str, help='Twitter username to download the timeline of.')
 
 args = parser.parse_args()
 
@@ -88,4 +89,8 @@ def get_twitter_timeline(twitter_auth, username):
 if args.access_token is not None:
     call_all_facebook(args.access_token, args.version, args.limit)
 
-twitter_auth = dict = eval(open("./twitter_auth.dict").read())
+try:
+    twitter_auth = dict = eval(open("./twitter_auth.dict").read())
+    get_twitter_timeline(twitter_auth, args.tweeter)
+except Exception as e:
+    raise e
