@@ -67,6 +67,7 @@ def get_twitter_timeline(twitter_auth, username):
         max_id = None
         tweet_count = 0
         call_count = 0
+        # Initial batch of most recent tweets
         statuses = api.GetUserTimeline(screen_name=username, count=200)
         while len(statuses) > 0:
             call_count += 1
