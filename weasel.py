@@ -62,15 +62,14 @@ def get_twitter_timeline(twitter_auth, username):
     if 'consumer_key' in twitter_auth.keys():
         import twitter
         api = twitter.Api(consumer_key=twitter_auth['consumer_key'],
-                         consumer_secret=twitter_auth['consumer_secret'],
-                         access_token_key=twitter_auth['access_token_key'],
-                         access_token_secret=twitter_auth['access_token_secret'])
+                          consumer_secret=twitter_auth['consumer_secret'],
+                          access_token_key=twitter_auth['access_token_key'],
+                          access_token_secret=twitter_auth['access_token_secret'])
         max_id = None
         tweet_count = 0
         call_count = 0
         # Initial batch of most recent tweets
         statuses = api.GetUserTimeline(screen_name=username, count=200, max_id=max_id)
-        print(len(statuses))
         while len(statuses) > 0:
             call_count += 1
             for s in statuses:
@@ -81,9 +80,7 @@ def get_twitter_timeline(twitter_auth, username):
                 elif max_id > int(s.id):
                     max_id = int(s.id) - 1
             #max_id = int(min([s.id for s in statuses]) - 1)
-            print(max_id)
             statuses = api.GetUserTimeline(screen_name=username, count=200, max_id=max_id)
-            print(len(statuses))
         print("The number of calls performed was {0} and {1} tweets were retrieved.".format(call_count,
                                                                                             tweet_count))
 
