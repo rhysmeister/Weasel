@@ -1,5 +1,5 @@
 # Weasel
-A tool for downloading details of stuff posted you've posted Facebook & Twitter
+A tool for downloading details of stuff posted you've posted Facebook & Twitter and running some basic analysis on it for naughty stuff.
 
 # Install Requirements
 
