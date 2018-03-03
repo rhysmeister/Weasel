@@ -115,15 +115,15 @@ class Menoetius:
             text_standard = textstat.text_standard(text)
         except TypeError as e:
             text_standard = None
-        return (syllable_count,
-                lexicon_count,
-                sentence_count,
-                flesch_reading_ease,
-                flesch_kincaid_grade,
-                gunning_fog,
-                smog_index,
-                automated_readability_index,
-                coleman_liau_index,
-                linsear_write_formula,
-                dale_chall_readability_score,
-                text_standard)
+        return { "syllable_count": syllable_count,
+                 "lexicon_count": lexicon_count,
+                 "sentence_count": sentence_count,
+                 "flesch_reading_ease": flesch_reading_ease,
+                 "flesch_kincaid_grade": flesch_kincaid_grade,
+                 "gunning_fog": gunning_fog,
+                 "smog_index": smog_index,
+                 "automated_readability_index": automated_readability_index,
+                 "coleman_liau_index": coleman_liau_index,
+                 "linsear_write_formula": linsear_write_formula,
+                 "dale_chall_readability_score": dale_chall_readability_score,
+                 "text_standard": text_standard }
