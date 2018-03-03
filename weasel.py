@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse, facebook, Menoetius
+import pandas as pd
 
 parser = argparse.ArgumentParser(description='Download your likes, posts and comments from Facebook')
 parser.add_argument('-t', '--access_token', type=str, help='Facebook Access Token. Get one from the Graphi API Explorer')
@@ -87,7 +88,7 @@ def get_twitter_timeline(twitter_auth, username):
             data += statuses
             call_count += 1
             for s in statuses:
-                print(s)
+                #print(s)
                 tweet_count += 1
                 if max_id is None:
                     max_id = s.id - 1
@@ -103,12 +104,15 @@ def get_twitter_timeline(twitter_auth, username):
 
 if args.access_token is not None:
     call_all_facebook(args.access_token, args.version, args.limit)
-
 try:
+    data = []
     twitter_auth = dict = eval(open("./twitter_auth.dict").read())
     tweets = get_twitter_timeline(twitter_auth, args.tweeter)
     if not args.no_analysis:
         for tweet in tweets:
-            print(run_Menoetius_analysis(tweet.text))
+            d = run_Menoetius_analysis(tweet.text)
+            data.append(d)
+        tweet_df = pd.DataFrame(data)
+        print(tweet_df)
 except Exception as e:
     raise e
