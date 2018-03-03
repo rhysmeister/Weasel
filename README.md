@@ -5,6 +5,7 @@ A tool for downloading details of stuff posted you've posted Facebook & Twitter 
 
 sudo python -m pip install -e git+https://github.com/mobolic/facebook-sdk.git#egg=facebook-sdk
 sudo python -m pip install python-twitter
+sudo pip install stemming textstat nltk pysentiment
 
 # Facebook Auth
 
