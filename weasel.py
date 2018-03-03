@@ -1,13 +1,25 @@
-#!/usr/bin/env python
-import argparse, facebook
+#!/usr/bin/env python3
+import argparse, facebook, Menoetius
 
 parser = argparse.ArgumentParser(description='Download your likes, posts and comments from Facebook')
 parser.add_argument('-t', '--access_token', type=str, help='Facebook Access Token. Get one from the Graphi API Explorer')
 parser.add_argument('-v', '--version', type=str, default="2.11", help='The version of the Facebook Graph API')
 parser.add_argument('-l', '--limit', type=int, default=4000, help='The number of results to fetch per call to the Graph API')
 parser.add_argument('-u', '--tweeter', type=str, help='Twitter username to download the timeline of.')
+parser.add_argument('-a', '--no_analysis', action="store_true", default=False, help="Don't run analysis on the datas.")
+
 
 args = parser.parse_args()
+
+def run_Menoetius_analysis(text):
+    m = Menoetius.Menoetius(text)
+    data = { "original_text": m.original_text,
+             "lowercase_text": m.lowercase_text,
+             "stems": m.stems,
+             "pos_tags": m.pos_tags,
+             "sentiment_scores": m.sentiment_scores,
+             "text_stats": m.text_stats }
+    return data
 
 def get_graph(access_token, version):
     graph = facebook.GraphAPI(access_token=access_token, version=version)
@@ -68,9 +80,11 @@ def get_twitter_timeline(twitter_auth, username):
         max_id = None
         tweet_count = 0
         call_count = 0
+        data = []
         # Initial batch of most recent tweets
         statuses = api.GetUserTimeline(screen_name=username, count=200, max_id=max_id)
         while len(statuses) > 0:
+            data += statuses
             call_count += 1
             for s in statuses:
                 print(s)
@@ -83,6 +97,7 @@ def get_twitter_timeline(twitter_auth, username):
             statuses = api.GetUserTimeline(screen_name=username, count=200, max_id=max_id)
         print("The number of calls performed was {0} and {1} tweets were retrieved.".format(call_count,
                                                                                             tweet_count))
+        return data
 
 # TODO? https://github.com/t-davidson/hate-speech-and-offensive-language/tree/master/lexicons
 
@@ -91,6 +106,9 @@ if args.access_token is not None:
 
 try:
     twitter_auth = dict = eval(open("./twitter_auth.dict").read())
-    get_twitter_timeline(twitter_auth, args.tweeter)
+    tweets = get_twitter_timeline(twitter_auth, args.tweeter)
+    if not args.no_analysis:
+        for tweet in tweets:
+            print(run_Menoetius_analysis(tweet.text))
 except Exception as e:
     raise e
