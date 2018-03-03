@@ -31,12 +31,12 @@ class Menoetius:
 
     def __init__(text):
         assert isinstance(text, str)
-        original_text = deepcopy(text)
-        lowercase_text = self.to_lowercase(text)
-        stems = self.do_stemming(lowercase_text)
-        pos_tags = self.do_pos(lowercase_text)
-        sentiment_scores = self.do_sentiment_scores(lowercase_text)
-        text_stats = self.do_text_stats(lowercase_text)
+        self.original_text = deepcopy(text)
+        self.lowercase_text = self.to_lowercase(text)
+        self.stems = self.do_stemming(lowercase_text)
+        self.pos_tags = self.do_pos(lowercase_text)
+        self.sentiment_scores = self.do_sentiment_scores(lowercase_text)
+        self.text_stats = self.do_text_stats(lowercase_text)
 
     def do_lowercase(text):
         return text.lower()
